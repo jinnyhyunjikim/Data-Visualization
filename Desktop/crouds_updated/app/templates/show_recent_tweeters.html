@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% block content %}
+    <h3>Recent Tweeters</h3>
+
+    <div class="input-field col s12">
+
+    <form action="{{ url_for('get_recent_tweeters') }}" method="POST">
+        <div>
+        <h4>By home (most tweeted location)</h4>
+        <label>Neighborhood:</label>
+        <select class="browser-default" name="venue-name">
+          <option value="Carnegie Mellon Cafe">Oakland</option>
+          <option value="US Steel Tower">Squirell Hill</option>
+          <option value="Point State Park">Shadyside</option>
+        </select>
+      </div>
+
+      <div>
+        <h4>By most recent  location</h4>
+        <!--  
+        <label>Neighborhood</label>
+        <select class="browser-default" name="venue-name">
+          <option value="Carnegie Mellon Cafe">Oakland</option>
+          <option value="US Steel Tower">Squirell Hill</option>
+          <option value="Point State Park">Shadyside</option>
+        </select>
+        -->
+        <!-- <input type="text" name="city" value="Pittsburgh"> -->
+
+        <label>Venue Name</label>
+        <select class="browser-default" name="venue-name">
+          <option value="Carnegie Mellon Cafe">Carnegie Mellon Cafe</option>
+          <option value="US Steel Tower">US Steel Tower</option>
+          <option value="Point State Park">Point State Park</option>
+        </select>
+        <!-- <input type="text" name="city" value="Pittsburgh"> -->
+
+        <label>Venue ID</label>
+        <input type="text" name="venue-id" value="d3edkce5bg94j2">
+
+        <br/>
+        <br/>
+        <label>Street</label>
+        <input type="text" name="venue-id" value="Craig St">
+        <input type="text" name="venue-id" value="Forbes Ave">
+
+
+        <br/>
+        <br/>
+        <label>Who was here within the last ... minutes:</label>
+        <select class="browser-default" name="venue-name">
+          <option value="Carnegie Mellon Cafe">5</option>
+          <option value="US Steel Tower">10</option>
+          <option value="Point State Park">20</option>
+          <option value="Point State Park">30</option>
+          <option value="Point State Park">60</option>
+          <option value="Point State Park">600</option>
+          <option value="Point State Park">1000</option>
+        </select>
+      </div>
+    
+    <br/>
+    <br/>
+    <div class="input-field col s12" class="row center">
+            <img src="images/image1.png">
+            <br/>
+          <button class="btn waves-effect waves-light" type="submit" name="action">Search</button>
+    </div>
+
+    </form>
+    </div>
+
+
+
+
+    <table>
+        <thead>
+            <tr>
+                <th data-field="id">Screen name</th>
+                <th data-field="name">Last tweet</th>
+                <th data-field="price">Coordinates</th>
+                <th data-field="price">Neighborhood</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td><b>{{ user.user_screen_name }}</b></td>
+                <td>{{ user.text }}</td>
+                <td>{{ user.coordinates }}</td>
+                <td>{{ user.coordinates }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+                <!-- <td>{{ user.coordinates }}</td> -->
+                <!-- <td>{{ user.text }}</td> -->
+                <!-- <td>{{ user }}</td> -->
