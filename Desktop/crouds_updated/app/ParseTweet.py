@@ -5,6 +5,26 @@ import re, string
 class ParseTweet(): 
 
     @staticmethod
+    def parse(str):
+        try: 
+            return ParseTweet.get_one_integer(str)
+        except: 
+            try: 
+                return ParseTweet.check_for_one_missing_space(str)
+            except:
+                return -1
+
+    @staticmethod
+    def check_for_one_missing_space(str):
+        # create space in between each place and try getting one integer. if succeed, return that .
+        length = len(str)
+        for i in xrange(length):
+            modified_str = str[:i] + ' ' + str[i:] 
+            try: return ParseTweet.get_one_integer(modified_str)
+            except: pass 
+        raise Exception("Checked for spacing error, but still none found.")
+
+    @staticmethod
     def get_one_integer(str):
     # Extracts one integer- average if two found, 
     # -1 if none or more than two found. 
@@ -14,11 +34,57 @@ class ParseTweet():
         numbers = remove_negative_numbers(numbers)
         count = len(numbers) # number of extracted
                              # 0 or positive numbers.
-        
-        if (count  == 0 or count > 2): return -1 # None or too many found
+        if (count  == 0 or count > 2): raise Exception("Not parsable") # None or too many found
         if (count == 1): return numbers[0]
         if (count == 2): 
             return (numbers[0] + numbers[1]) / 2
+
+    @staticmethod
+    def get_multiple_choice_answer(str):
+    # Gets the first single letter word from a string, ignoring "i"
+    # e.g. "a. thanks for asking"
+    	words_separated = separate_each_word(str)
+    	words_separated = strip_punctuation(words_separated)
+    	first_single_letter = get_first_single_letter(words_separated)
+    	return first_single_letter
+
+
+
+def strip_punctuation(array_of_words):
+	new_array = []
+	for word in array_of_words:
+		without_punctuation = word.strip(string.punctuation) # how about numbers?
+		new_array.append(without_punctuation)
+	return new_array
+def get_length_of_each_word(array_of_words):
+# Punctuation already stripped. 
+	array_of_letter_count = []
+	for word in array_of_words:
+		array_of_letter_count.append( len(word) )
+	return array_of_letter_count
+
+def get_first_single_letter(array_of_words):
+
+	length_of_each_word = get_length_of_each_word(array_of_words)
+	first_single_letter = "-1"
+	for i in xrange(len(array_of_words)):
+		if length_of_each_word[i] == 1:
+			first_single_letter = array_of_words[i]
+	return first_single_letter.lower()
+
+# print get_length_of_each_word(['this', ',and', '','a' ])
+
+
+
+# "a"	a
+# "a."	
+# " b"	b
+# "cc"	c
+# "a. thanks for asking"	a
+# "a. please don't close down the bridge!"	a
+	
+# "bc"	-1
+# "between a & b"	-1
 
 #############################################
 # spoken_word_to_number_method_1 (and helper fn's)
@@ -207,3 +273,17 @@ def remove_negative_numbers(array_of_numbers):
         if n >= 0:
             new_array.append(n)
     return new_array
+
+def create_space(str):
+    return
+
+print ParseTweet.get_multiple_choice_answer('thanks')
+print ParseTweet.get_multiple_choice_answer('a.')
+print ParseTweet.get_multiple_choice_answer('a')
+print ParseTweet.get_multiple_choice_answer('(a)')
+print ParseTweet.get_multiple_choice_answer('.a')
+print ParseTweet.get_multiple_choice_answer('   a!!')
+print ParseTweet.get_multiple_choice_answer('   ab!!')
+print ParseTweet.get_multiple_choice_answer('probably b')
+
+

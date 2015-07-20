@@ -7,9 +7,26 @@
     <title>CROUDS</title>
     {% endif %}
 
+    <style>
+    h1,h2,h3,h4,h5,h6,p,a{
+     /* font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;    */ 
+
+   }
+    body, table{
+      background-color: lightgrey;
+      background-color: whitesmoke;
+      font-family: Helvetica, Arial, sans-serif;
+      font-weight: 100;    
+      font-size: .7em;
+      text-decoration: none;
+    }
+    table{
+      margin:auto;
+    }
+    </style>
     <!-- <link href="{{ url_for('.static', filename='css/style.css') }}" rel="stylesheet"> -->
     <!-- <link href="{{ url_for('.static', filename='css/materialize.min.css') }}" rel="stylesheet"> -->
-    
+    {% block h %}{% endblock %}
   </head>
   <body>
     <!-- <div>CROUDS: <a href="/index">Home</a></div> -->
