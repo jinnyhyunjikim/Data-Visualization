@@ -28,6 +28,12 @@ class FriendsController < ApplicationController
 
     respond_to do |format|
       if @friend.save
+        # Provide an email confirmation if all is good...
+        FriendMailer.new_friend_msg(@friend).deliver
+
+        # Now a page confirmation as well...
+        flash[:notice] = "#{@friend.nickname} has been added as a friend and notified by email."
+
         format.html { redirect_to @friend, notice: 'Friend was successfully created.' }
         format.json { render :show, status: :created, location: @friend }
       else
@@ -55,6 +61,13 @@ class FriendsController < ApplicationController
   # DELETE /friends/1.json
   def destroy
     @friend.destroy
+
+    # Provide an email confirmation if all is good...
+    FriendMailer.remove_friend_msg(@friend).deliver
+
+    # Now a page confirmation as well...
+    flash[:notice] = "#{@friend.nickname} has been removed as a friend and notified by email."
+    
     respond_to do |format|
       format.html { redirect_to friends_url, notice: 'Friend was successfully destroyed.' }
       format.json { head :no_content }
