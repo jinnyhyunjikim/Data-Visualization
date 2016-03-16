@@ -1,4 +1,5 @@
 class Friend < ActiveRecord::Base
+  mount_uploader :photo, PhotoUploader
 
 	validates_presence_of :full_name, :phone, :email, :friendship_level
 	validates_format_of :phone, with: /\A(\d{10}|\(?\d{3}\)?[-. ]\d{3}[-.]\d{4})\z/, message: "should be 10 digits (area code needed) and delimited with dashes only"
