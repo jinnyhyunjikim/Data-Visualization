@@ -1,0 +1,2 @@
+class FriendMailer < ApplicationMailer
+end
